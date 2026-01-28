@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "name": "jerret/skills",
+  "version": "0.0.1",
+  "packageManager": "pnpm@10.28.2",
+  "description": "Jerret's curated collection of Agent Skills",
+  "scripts": {
+    "lint": "eslint .",
+    "start": "node scripts/cli.ts",
+    "prepare": "simple-git-hooks && git submodule update --init --recursive"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^7.2.0",
+    "@clack/prompts": "^0.11.0",
+    "@types/node": "^25.0.10",
+    "eslint": "^9.39.2",
+    "lint-staged": "^15.5.1",
+    "simple-git-hooks": "^2.11.1",
+    "typescript": "^5.9.3"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,mjs,mts}": "eslint --fix"
+  }
+}
