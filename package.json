@@ -1,7 +1,8 @@
 {
-  "private": true,
   "name": "jerret/skills",
+  "type": "module",
   "version": "0.0.1",
+  "private": true,
   "packageManager": "pnpm@10.28.2",
   "description": "Jerret's curated collection of Agent Skills",
   "scripts": {
