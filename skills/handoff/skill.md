@@ -12,16 +12,16 @@ The assistant should recognize and respond to these command patterns:
 ### `/handoff:save [options]`
 
 **Trigger patterns:**
-- `/handoff:save --name <功能名>`
-- `/handoff:save --name <功能名> --continue v0.0.1`
-- `save handoff <功能名>`
-- "保存 handoff <功能名>"
-- "保存当前进度"
+- `/handoff:save --name <feature-name>`
+- `/handoff:save --name <feature-name> --continue v0.0.1`
+- `save handoff <feature-name>`
+- "save checkpoint"
+- "save my progress"
 - "checkpoint"
 
 **Options:**
-- `--name <功能名>` - Feature/project name (required)
-- `--continue <版本>` - Chain from previous handoff version
+- `--name <feature-name>` - Feature/project name (required)
+- `--continue <version>` - Chain from previous handoff version
 
 **Action:**
 1. Parse name parameter
@@ -42,14 +42,14 @@ The assistant should recognize and respond to these command patterns:
 - Automatic patch versioning: v0.0.1, v0.0.2, v0.0.3...
 - Each save increments the patch number
 
-### `/handoff:continue <功能名|路径>`
+### `/handoff:continue <feature-name|path>`
 
 **Trigger patterns:**
-- `/handoff:continue <功能名>`
-- `/handoff:continue docs/handoffs/<功能名>-v0.0.1.md`
-- `continue handoff <功能名>`
-- "继续 handoff <功能名>"
-- "继续之前的工作"
+- `/handoff:continue <feature-name>`
+- `/handoff:continue docs/handoffs/<feature-name>-v0.0.1.md`
+- `continue handoff <feature-name>`
+- "resume work on <feature-name>"
+- "continue where we left off"
 - "what were we working on?"
 
 **Action:**
@@ -125,7 +125,6 @@ digraph handoff_flow {
 - Session is ending and user wants to preserve progress
 - User asks "what were we working on?"
 - Starting work on an existing project with `docs/handoffs/`
-- User types: "保存 handoff", "继续 handoff", "保存当前进度"
 
 **Don't use for:**
 - New projects with no existing context
@@ -136,8 +135,8 @@ digraph handoff_flow {
 
 | Action | Command | When | How |
 |--------|---------|------|-----|
-| Save context | `/handoff:save --name <功能名>` | Session ending, user requests save | Create document with auto version |
-| Load context | `/handoff:continue <功能名>` | Starting existing project | Find latest, confirm, then present |
+| Save context | `/handoff:save --name <feature-name>` | Session ending, user requests save | Create document with auto version |
+| Load context | `/handoff:continue <feature-name>` | Starting existing project | Find latest, confirm, then present |
 | Version format | Automatic | Every save | v0.0.1, v0.0.2, v0.0.3... |
 | Session cleanup | `/compact` | After saving handoff | Manual command to clean session |
 
