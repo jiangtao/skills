@@ -1,17 +1,17 @@
-# Jerret's Skills
+# Jiangtao's Skills
 
-A curated collection of [Agent Skills](https://agentskills.io/home) reflecting Jerret's preferences, experience, and best practices.
+A curated collection of [Agent Skills](https://agentskills.io/home) reflecting Jiangtao's preferences, experience, and best practices.
 
 ## Installation
 
 ```bash
-pnpx skills add jerret/skills
+pnpx skills add jiangtao/skills
 ```
 
 or to install it globally:
 
 ```bash
-pnpx skills add jerret/skills -g
+pnpx skills add jiangtao/skills -g
 ```
 
 Learn more about the CLI usage at [skills](https://github.com/agentskills/skills).
@@ -27,7 +27,7 @@ Manually maintained with preferred tools, setup conventions, and best practices.
 | Skill | Description |
 |-------|-------------|
 | [handoff](skills/handoff) | Session handoff for context continuity across conversations |
-| [jerret](skills/jerret) | Jerret's preferences and best practices |
+| [jerret](skills/jerret) | Jiangtao's preferences and best practices |
 
 #### Handoff Skill - Quick Start
 
