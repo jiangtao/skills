@@ -34,5 +34,6 @@ export const vendors: Record<string, VendorSkillMeta> = {
  * Type 3: Manual Skills
  */
 export const manual = [
+  'handoff',
   'jerret',
 ]

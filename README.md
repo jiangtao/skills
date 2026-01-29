@@ -29,28 +29,52 @@ Manually maintained with preferred tools, setup conventions, and best practices.
 | [handoff](skills/handoff) | Session handoff for context continuity across conversations |
 | [jerret](skills/jerret) | Jerret's preferences and best practices |
 
-#### Handoff Skill Usage
+#### Handoff Skill - Quick Start
 
-Preserve context across Claude Code sessions:
+The **handoff skill** preserves context across Claude Code sessions. No additional installation needed - it's included in this collection.
+
+**Usage:**
 
 ```bash
-# Save current session
+# Save current session before closing
 /handoff:save --name my-feature
 
 # Resume previous work
 /handoff:continue my-feature
 
-# Clean session (manual)
+# Clean up session (recommended after saving)
 /compact
 ```
 
 **Features:**
-- Automatic versioning (v0.0.1, v0.0.2, ...)
-- Finds and loads latest handoff
-- Timestamp format: `yy-MM-DD hh:mm:ss`
-- Documents stored in `docs/handoffs/`
+- ✅ Automatic versioning (v0.0.1, v0.0.2, ...)
+- ✅ Finds and loads latest handoff automatically
+- ✅ Timestamp format: `yy-MM-DD hh:mm:ss`
+- ✅ Documents stored in `docs/handoffs/`
 
-See [CLAUDE.md](CLAUDE.md) for detailed documentation.
+**How it works:**
+1. When you type `/handoff:save`, the assistant creates a structured markdown document
+2. When you type `/handoff:continue`, the assistant finds and loads the latest version
+3. All context is preserved for seamless continuation
+
+**Example handoff document:**
+```markdown
+# My Feature Handoff
+
+**Created:** 26-01-29 14:30:15
+**Version:** v0.0.1
+
+## Context Overview
+- Project: Building new feature
+- Objectives: Implement user authentication
+
+## Current TODO
+1. [ ] Add login form
+2. [ ] Implement OAuth
+...
+```
+
+See [CLAUDE.md](CLAUDE.md) for detailed handoff documentation.
 
 ### Skills Generated from Official Documentation
 
