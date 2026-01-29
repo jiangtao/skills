@@ -26,7 +26,31 @@ Manually maintained with preferred tools, setup conventions, and best practices.
 
 | Skill | Description |
 |-------|-------------|
+| [handoff](skills/handoff) | Session handoff for context continuity across conversations |
 | [jerret](skills/jerret) | Jerret's preferences and best practices |
+
+#### Handoff Skill Usage
+
+Preserve context across Claude Code sessions:
+
+```bash
+# Save current session
+/handoff:save --name my-feature
+
+# Resume previous work
+/handoff:continue my-feature
+
+# Clean session (manual)
+/compact
+```
+
+**Features:**
+- Automatic versioning (v0.0.1, v0.0.2, ...)
+- Finds and loads latest handoff
+- Timestamp format: `yy-MM-DD hh:mm:ss`
+- Documents stored in `docs/handoffs/`
+
+See [CLAUDE.md](CLAUDE.md) for detailed documentation.
 
 ### Skills Generated from Official Documentation
 
