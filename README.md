@@ -27,14 +27,16 @@ Manually maintained with preferred tools, setup conventions, and best practices.
 | Skill | Description |
 |-------|-------------|
 | [handoff](skills/handoff) | Session handoff for context continuity across conversations |
-| [jerret](skills/jerret) | Jiangtao's preferences and best practices |
+| [dev](skills/dev) | Development workflow skills for verification, refactoring, and error handling |
+| [exam](skills/exam) | Generate exam questions from documents or topics |
 
-#### Handoff Skill - Quick Start
+---
 
-The **handoff skill** preserves context across Claude Code sessions. No additional installation needed - it's included in this collection.
+#### Handoff Skill
+
+Session handoff for context continuity across Claude Code conversations.
 
 **Usage:**
-
 ```bash
 # Save current session before closing
 /handoff:save --name my-feature
@@ -52,29 +54,46 @@ The **handoff skill** preserves context across Claude Code sessions. No addition
 - ✅ Timestamp format: `yy-MM-DD hh:mm:ss`
 - ✅ Documents stored in `docs/handoffs/`
 
-**How it works:**
-1. When you type `/handoff:save`, the assistant creates a structured markdown document
-2. When you type `/handoff:continue`, the assistant finds and loads the latest version
-3. All context is preserved for seamless continuation
+---
 
-**Example handoff document:**
-```markdown
-# My Feature Handoff
+#### Dev Skill
 
-**Created:** 26-01-29 14:30:15
-**Version:** v0.0.1
+Development workflow skills to improve code quality and reduce debugging iterations.
 
-## Context Overview
-- Project: Building new feature
-- Objectives: Implement user authentication
+**Usage:**
+```bash
+# Verify code changes after implementation
+/dev:verify
 
-## Current TODO
-1. [ ] Add login form
-2. [ ] Implement OAuth
-...
+# Plan complex refactoring tasks
+/dev:refactor-plan
+
+# Check error handling before modifications
+/dev:error-check
 ```
 
-See [CLAUDE.md](CLAUDE.md) for detailed handoff documentation.
+**Features:**
+- ✅ Automatic verification workflow (tests + dev server + e2e)
+- ✅ Structured refactoring with checkpoints
+- ✅ Safe error handling modifications
+
+---
+
+#### Exam Skill
+
+Generate exam questions from documents or topics with multiple question types.
+
+**Usage:**
+```bash
+/exam:generate --from <file|topic> --type <choice|essay|mixed> --count <number>
+```
+
+**Features:**
+- ✅ Multiple question types (single choice, multiple choice, true/false, essay)
+- ✅ Support for PDF and markdown input
+- ✅ Configurable difficulty and scoring
+
+---
 
 ### Skills Generated from Official Documentation
 
