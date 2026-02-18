@@ -26,6 +26,31 @@ For projects that **already maintain their own skills**. We clone their repo as 
 
 Skills written manually with personal preferences and best practices.
 
+#### Example: video Skill
+
+A hand-written skill for video download management.
+
+**Structure:**
+```
+skills/video/
+├── skill.md              # Main skill index
+├── GENERATION.md         # Generation metadata
+├── bin/                  # Execution scripts
+│   ├── collect_links.sh
+│   └── download_manager.sh
+└── references/           # Skill documentation
+    ├── link-collector.md
+    ├── download-manager.md
+    ├── storage.md
+    └── usage.md
+```
+
+**Usage:**
+```bash
+/video --collect --url "https://example.com/video"
+/video --download
+```
+
 ## Repository Structure
 
 ```
