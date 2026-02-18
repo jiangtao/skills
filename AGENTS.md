@@ -24,7 +24,8 @@ For projects that **already maintain their own skills**. We clone their repo as 
 
 ### Type 3: Hand-written Skills
 
-Skills written manually with personal preferences and best practices.
+Skills written manually with personal preferences and custom requirements.
+Use this when you need full control or the skill doesn't fit Type 1/2 patterns.
 
 #### Example: video Skill
 
@@ -33,22 +34,23 @@ A hand-written skill for video download management.
 **Structure:**
 ```
 skills/video/
-├── skill.md              # Main skill index
-├── GENERATION.md         # Generation metadata
-├── bin/                  # Execution scripts
-│   ├── collect_links.sh
-│   └── download_manager.sh
-└── references/           # Skill documentation
-    ├── link-collector.md
-    ├── download-manager.md
-    ├── storage.md
-    └── usage.md
+├── skill.md              # Main skill index (entry point)
+├── GENERATION.md         # Metadata: author, date, version
+├── bin/                  # Executable scripts
+│   ├── collect_links.sh  # Link collection script
+│   └── download_manager.sh # Download management script
+└── references/           # Detailed documentation
+    ├── link-collector.md   # Link collection guide
+    ├── download-manager.md # Download management guide
+    ├── storage.md          # Storage configuration
+    └── usage.md            # Usage examples
 ```
 
 **Usage:**
 ```bash
-/video --collect --url "https://example.com/video"
-/video --download
+/video --collect --url "https://example.com/video"  # Collect video links
+/video --download                                   # Download queued videos
+/video --status                                     # Check download status
 ```
 
 ## Repository Structure
@@ -116,6 +118,22 @@ skills/video/
 3. Update `SYNC.md` with new SHA
 
 **Note:** Do NOT modify synced skills manually. Contribute changes upstream.
+
+### For Hand-written Skills (Type 3)
+
+#### Creating New Skills
+
+1. Create directory under `skills/{skill-name}/`
+2. Write `skill.md` with skill metadata and index
+3. Create `bin/` with executable scripts (optional)
+4. Add `references/` with documentation
+5. Create `GENERATION.md` with author and date
+
+#### Updating Hand-written Skills
+
+1. Modify files directly as needed
+2. Update `GENERATION.md` with change date
+3. Test changes thoroughly
 
 ## File Formats
 
