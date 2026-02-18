@@ -22,10 +22,14 @@ For projects that **already maintain their own skills**. We clone their repo as 
 
 **Config:** Each vendor specifies which skills to sync in `meta.ts`
 
-### Type 3: Hand-written Skills
+### Type 3: Hand-written Skills (`skills/`)
 
 Skills written manually with personal preferences and custom requirements.
 Use this when you need full control or the skill doesn't fit Type 1/2 patterns.
+
+**Workflow:** Write → Test → Maintain
+
+**Source:** `skills/{skill-name}/`
 
 #### Example: video Skill
 
