@@ -19,23 +19,40 @@ video 技能提供完整的视频下载解决方案：
 
 ## 使用方法
 
+### 命令模式
+
 ```bash
-/video [--collect] [--download] [--status]
+# 收集视频链接
+/video --collect --url "https://www.youtube.com/watch?v=xxx"
+
+# 下载已收集的视频
+/video --download
+
+# 查看下载状态
+/video --status
 ```
 
-**触发短语：**
+### 触发短语
+
 - `/video`
 - `download videos` / `视频下载`
 - `collect links` / `收集链接`
+
+## Integration with CLAUDE.md
+
+video skill 与项目的 CLAUDE.md 配合使用：
+- `/video --collect` 触发链接收集队员
+- `/video --download` 触发下载管理队员
+- 支持 Agent Team 协作模式进行任务分配
 
 ## 核心参考
 
 | 主题 | 描述 | 参考 |
 |-------|-------------|-----------|
-| 链接收集 | 链接来源、去重、存储接口 | [链接收集模块](references/link-collector.md) |
-| 下载管理 | 队列管理、lux 封装、并发控制 | [下载管理模块](references/download-manager.md) |
-| 存储策略 | 文件分类、目录结构、命名规则 | [存储管理](references/storage.md) |
-| 使用示例 | 命令行用法和 API 示例 | [使用示例](references/usage.md) |
+| 链接收集 | 链接来源、去重、存储接口 | [link-collector](references/link-collector.md) |
+| 下载管理 | 队列管理、lux 封装、并发控制 | [download-manager](references/download-manager.md) |
+| 存储策略 | 文件分类、目录结构、命名规则 | [storage](references/storage.md) |
+| 使用示例 | 命令行用法和 API 示例 | [usage](references/usage.md) |
 
 ## 执行脚本
 
@@ -45,3 +62,17 @@ video 技能提供完整的视频下载解决方案：
 |------|------|------|
 | `collect_links.sh` | 链接收集执行脚本 | Python 3.10+ |
 | `download_manager.sh` | 下载管理执行脚本 | lux, Python 3.10+ |
+
+## Agent Team
+
+本项目使用 Agent Team 协作模式：
+
+- **链接收集队员 (link-collector)** - 负责链接收集、去重、本地存储
+- **下载管理队员 (download-manager)** - 负责队列管理、lux 调用、并发控制、分类存储
+
+### 工作流
+
+1. 用户请求下载视频
+2. link-collector 收集和验证链接
+3. download-manager 执行下载任务
+4. 报告结果和状态
