@@ -5,7 +5,7 @@ description: 下载管理模块规范
 
 # 下载管理模块
 
-负责管理待下载队列、调用 lux 进行下载、控制并发、以及文件的分类存储。
+负责管理待下载队列、调用 yt-dlp 进行下载、控制并发、以及文件的分类存储。
 
 ## 核心组件
 
@@ -33,12 +33,12 @@ class DownloadTask:
     progress: float = field(compare=False, default=0.0)
 ```
 
-### 2. Lux 下载器
+### 2. YtDlp 下载器
 
 ```python
-class LuxDownloader:
-    def __init__(self, lux_path: str = "lux"):
-        self.lux_path = lux_path
+class YtDlpDownloader:
+    def __init__(self, ytdlp_path: str = "yt-dlp"):
+        self.ytdlp_path = ytdlp_path
 
     def download(self, url: str, output_dir: Path,
                  quality: str = "best") -> Dict[str, Any]:
@@ -53,7 +53,12 @@ class LuxDownloader:
         Returns:
             包含下载结果和信息的字典
         """
-        cmd = [self.lux_path, "-c", str(output_dir), "-f", quality, url]
+        cmd = [
+            self.ytdlp_path,
+            "-f", quality,
+            "-o", str(output_dir / "%(title)s.%(ext)s"),
+            url
+        ]
         # 执行下载逻辑
         pass
 ```
@@ -83,7 +88,8 @@ class DownloadManager:
     def __init__(self, base_dir: Path = Path("./downloads"),
                  max_concurrent: int = 3):
         self.queue_manager = QueueManager()
-        self.downloader = LuxDownloader()
+        self.downloader = YtDlpDownloader()
+        self.video_merger = VideoMerger(directory=base_dir)
         self.storage_manager = StorageManager(base_dir)
         self.concurrency_controller = ConcurrencyController(
             max_workers=max_concurrent
