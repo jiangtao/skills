@@ -33,3 +33,5 @@ npm-debug.log*
 pnpm-debug.log*
 .verified
 *.pdf
+*.pyc
+*.mp4
