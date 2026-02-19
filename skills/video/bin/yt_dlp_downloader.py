@@ -36,7 +36,13 @@ class YtDlpDownloader:
             raise RuntimeError(f"yt-dlp 不可用: {e}")
 
     def _sanitize_filename(self, filename: str) -> str:
-        """清理文件名中的非法字符"""
+        """
+        清理文件名中的非法字符
+
+        Note: This method is currently unused as yt-dlp handles filename
+        sanitization internally. Kept for potential future use or custom
+        filename handling needs beyond yt-dlp's default behavior.
+        """
         # 移除或替换 Windows/Linux 不允许的字符
         illegal_chars = r'[<>:"/\\|?*]'
         # 替换为下划线
@@ -66,7 +72,13 @@ class YtDlpDownloader:
 
         # 使用 yt-dlp 的格式选择器
         # bestvideo+bestaudio/best 会下载最佳质量并自动合并
-        format_selector = "bestvideo+bestaudio/best"
+        format_map = {
+            "best": "bestvideo+bestaudio/best",
+            "worst": "worstvideo+worstaudio/worst",
+            "high": "bestvideo[height<=1080]+bestaudio/best",
+            "low": "worstvideo[height>=480]+worstaudio/worst"
+        }
+        format_selector = format_map.get(quality, "bestvideo+bestaudio/best")
 
         cmd = [
             self.yt_dlp_path,
@@ -100,7 +112,7 @@ class YtDlpDownloader:
                 output_lines.append(line)
                 print(line, end='')
 
-            process.wait()
+            process.wait(timeout=3600)  # 1 hour timeout for downloads
 
             result["output"] = "".join(output_lines)
             result["success"] = process.returncode == 0
@@ -108,6 +120,8 @@ class YtDlpDownloader:
             if process.returncode != 0:
                 result["error"] = result["output"]
 
+        except subprocess.TimeoutExpired:
+            result["error"] = "Download timeout exceeded"
         except Exception as e:
             result["error"] = str(e)
 

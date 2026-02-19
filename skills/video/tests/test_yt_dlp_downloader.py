@@ -99,3 +99,9 @@ def test_download_uses_correct_output_format():
                 cmd = call_args[0][0] if call_args else []
                 assert "-o" in cmd
                 assert str(Path(tmpdir)) in str(cmd)
+                # Verify format selector
+                assert "-f" in cmd
+                format_idx = cmd.index("-f") + 1
+                assert cmd[format_idx] == "bestvideo+bestaudio/best"
+                # Verify merge output format
+                assert "--merge-output-format" in cmd
