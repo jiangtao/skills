@@ -43,7 +43,8 @@ install_if_missing() {
 
 # 检查依赖（静默自动安装）
 install_if_missing "python3" "Python 3" "brew install python3"
-install_if_missing "lux" "lux (视频下载工具)" "brew install lux"
+install_if_missing "yt-dlp" "yt-dlp (视频下载工具)" "pipx install yt-dlp"
+install_if_missing "ffmpeg" "ffmpeg (视频处理工具)" "brew install ffmpeg"
 
 # 执行 Python 脚本
 python3 "$PYTHON_SCRIPT" "$@"
