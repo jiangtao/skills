@@ -8,7 +8,6 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
-import re
 
 
 class VideoMerger:
@@ -82,14 +81,11 @@ class VideoMerger:
 
             if process.returncode != 0:
                 result["error"] = process.stderr or process.stdout
-            else:
-                # 创建输出文件（用于测试和实际合并）
-                output_path.touch()
-                if cleanup:
-                    # 成功后删除原文件
-                    video_path.unlink()
-                    audio_path.unlink()
-                    print(f"  已删除原文件: {video_path.name}, {audio_path.name}")
+            elif cleanup and output_path.exists():
+                # 只有在合并文件成功创建后才删除原文件
+                video_path.unlink()
+                audio_path.unlink()
+                print(f"  已删除原文件: {video_path.name}, {audio_path.name}")
 
         except subprocess.TimeoutExpired:
             result["error"] = "合并超时（超过5分钟）"
@@ -97,6 +93,29 @@ class VideoMerger:
             result["error"] = str(e)
 
         return result
+
+    def merge_all(self, directory: Path, cleanup: bool = True) -> List[Dict[str, Any]]:
+        """
+        合并目录中所有分离的文件
+
+        Args:
+            directory: 包含视频文件的目录
+            cleanup: 是否在成功后删除原文件
+
+        Returns:
+            每个文件对的合并结果列表
+        """
+        pairs = find_split_files(directory)
+        results = []
+
+        for video_file, audio_file in pairs:
+            # 构造输出文件名
+            output_file = video_file.parent / (video_file.stem.rsplit('.', 1)[0] + ".mp4")
+
+            result = self.merge(video_file, audio_file, output_file, cleanup=cleanup)
+            results.append(result)
+
+        return results
 
 
 def find_split_files(directory: Path) -> List[Tuple[Path, Path]]:
@@ -112,8 +131,17 @@ def find_split_files(directory: Path) -> List[Tuple[Path, Path]]:
     """
     directory = Path(directory)
 
-    # 查找所有视频文件 (.f*.mp4)
-    video_files = list(directory.glob("*.f*.mp4"))
+    # 查找所有视频文件 - Bilibili 格式: <title>.f<number>.mp4
+    # 使用更严格的模式确保只匹配正确的文件
+    video_files = []
+    for f in directory.glob("*.f*.mp4"):
+        # 检查文件名是否符合 .f<数字>.mp4 格式
+        stem_parts = f.stem.split('.')
+        if len(stem_parts) >= 2:
+            # 检查最后一部分是否为数字
+            code_part = stem_parts[-1]
+            if code_part.startswith('f') and code_part[1:].isdigit():
+                video_files.append(f)
 
     pairs = []
     for video_file in video_files:
@@ -174,35 +202,6 @@ def main():
     except Exception as e:
         print(f"错误: {e}")
         return 1
-
-
-# 为 VideoMerger 类添加 merge_all 方法
-def merge_all(self, directory: Path, cleanup: bool = True) -> List[Dict[str, Any]]:
-    """
-    合并目录中所有分离的文件
-
-    Args:
-        directory: 包含视频文件的目录
-        cleanup: 是否在成功后删除原文件
-
-    Returns:
-        每个文件对的合并结果列表
-    """
-    pairs = find_split_files(directory)
-    results = []
-
-    for video_file, audio_file in pairs:
-        # 构造输出文件名
-        output_file = video_file.parent / (video_file.stem.rsplit('.', 1)[0] + ".mp4")
-
-        result = self.merge(video_file, audio_file, output_file, cleanup=cleanup)
-        results.append(result)
-
-    return results
-
-
-# 动态添加方法到类
-VideoMerger.merge_all = merge_all
 
 
 if __name__ == "__main__":

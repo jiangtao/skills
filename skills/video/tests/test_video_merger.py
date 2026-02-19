@@ -48,34 +48,55 @@ class TestVideoMerger(unittest.TestCase):
             tmpdir = Path(tmpdir)
             (tmpdir / "test.f100026.mp4").touch()
             (tmpdir / "test.f30280.m4a").touch()
+            output_file = tmpdir / "test.mp4"
+
+            # Simulate ffmpeg creating the output file
+            def side_effect(*args, **kwargs):
+                # When ffmpeg runs, it creates the output file
+                if "-i" in args[0]:
+                    output_file.touch()
+                return MagicMock(returncode=0)
+
+            mock_run.side_effect = side_effect
 
             merger = VideoMerger()
             result = merger.merge(
                 tmpdir / "test.f100026.mp4",
                 tmpdir / "test.f30280.m4a",
-                tmpdir / "test.mp4"
+                output_file
             )
 
             self.assertTrue(result["success"])
-            self.assertTrue((tmpdir / "test.mp4").exists())
+            self.assertTrue(output_file.exists())
 
     @patch('subprocess.run')
     def test_merge_removes_split_files_after_success(self, mock_run):
         """Test that merge removes original split files after successful merge"""
-        mock_run.return_value = MagicMock(returncode=0)
+        output_file = None
 
         with tempfile.TemporaryDirectory() as tmpdir:
             tmpdir = Path(tmpdir)
             video_file = tmpdir / "test.f100026.mp4"
             audio_file = tmpdir / "test.f30280.m4a"
+            output_file = tmpdir / "test.mp4"
             video_file.touch()
             audio_file.touch()
 
+            # Simulate ffmpeg creating the output file
+            def side_effect(*args, **kwargs):
+                # When ffmpeg runs, it creates the output file
+                if "-i" in args[0]:
+                    output_file.touch()
+                return MagicMock(returncode=0)
+
+            mock_run.side_effect = side_effect
+
             merger = VideoMerger()
-            merger.merge(video_file, audio_file, tmpdir / "test.mp4", cleanup=True)
+            merger.merge(video_file, audio_file, output_file, cleanup=True)
 
             self.assertFalse(video_file.exists())
             self.assertFalse(audio_file.exists())
+            self.assertTrue(output_file.exists())
 
     @patch('subprocess.run')
     def test_merge_all_processes_all_pairs(self, mock_run):
