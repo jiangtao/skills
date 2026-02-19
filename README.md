@@ -29,6 +29,7 @@ Manually maintained with preferred tools, setup conventions, and best practices.
 | [handoff](skills/handoff) | Session handoff for context continuity across conversations |
 | [dev](skills/dev) | Development workflow skills for verification, refactoring, and error handling |
 | [exam](skills/exam) | Generate exam questions from documents or topics |
+| [video](skills/video) | Video link collection and download management tool |
 
 ---
 
@@ -92,6 +93,31 @@ Generate exam questions from documents or topics with multiple question types.
 - ✅ Multiple question types (single choice, multiple choice, true/false, essay)
 - ✅ Support for PDF and markdown input
 - ✅ Configurable difficulty and scoring
+
+---
+
+#### Video Skill
+
+Video download management tool with multi-source link collection and download queue management.
+
+**Usage:**
+```bash
+# Collect video links
+/video --collect --url "https://www.youtube.com/watch?v=xxx"
+
+# Download collected videos
+/video --download
+
+# Check download status
+/video --status
+```
+
+**Features:**
+- ✅ Multi-source link collection (manual, bookmarks, clipboard)
+- ✅ Automatic deduplication and normalization
+- ✅ Concurrent download management with lux
+- ✅ Categorized storage by source and date
+- ✅ Multi-platform support (Bilibili, YouTube, direct links)
 
 ---
 
