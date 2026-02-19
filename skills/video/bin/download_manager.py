@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 下载管理执行脚本
-基于 lux 的视频下载管理器
+基于 yt-dlp 的视频下载管理器
 """
 
 import argparse
@@ -18,79 +18,13 @@ from typing import List, Dict, Any, Optional
 import uuid
 import re
 
+# Import YtDlpDownloader
+from yt_dlp_downloader import YtDlpDownloader
+
 # 配置
 STORAGE_PATH = Path.home() / ".video-downloader" / "links.json"
 DEFAULT_OUTPUT_DIR = Path.home() / "Videos" / "baby-videos"
-DEFAULT_CONCURRENT = 10  # 默认并发数
-
-class LuxDownloader:
-    """Lux 下载器封装"""
-
-    def __init__(self, lux_path: str = "lux"):
-        self.lux_path = lux_path
-        self._check_available()
-
-    def _check_available(self) -> bool:
-        """检查 lux 是否可用"""
-        try:
-            result = subprocess.run(
-                [self.lux_path, "--version"],
-                capture_output=True,
-                text=True,
-                timeout=10
-            )
-            return result.returncode == 0
-        except Exception:
-            raise RuntimeError(f"lux 不可用，请安装: brew install lux")
-
-    def download(self, url: str, output_dir: Path,
-                 quality: str = "best") -> Dict[str, Any]:
-        """执行下载"""
-        output_dir = Path(output_dir)
-        output_dir.mkdir(parents=True, exist_ok=True)
-
-        cmd = [
-            self.lux_path,
-            "-c", str(output_dir),
-            "-f", quality,
-            url
-        ]
-
-        result = {
-            "success": False,
-            "output": "",
-            "error": "",
-            "file_path": None
-        }
-
-        try:
-            print(f"开始下载: {url}")
-            print(f"输出目录: {output_dir}")
-
-            process = subprocess.Popen(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True
-            )
-
-            output_lines = []
-            for line in process.stdout:
-                output_lines.append(line)
-                print(line, end='')  # 实时输出
-
-            process.wait()
-
-            result["output"] = "".join(output_lines)
-            result["success"] = process.returncode == 0
-
-            if process.returncode != 0:
-                result["error"] = result["output"]
-
-        except Exception as e:
-            result["error"] = str(e)
-
-        return result
+DEFAULT_CONCURRENT = 3  # 默认并发数 (yt-dlp 更高效，降低并发避免服务器限流)
 
 
 class DownloadManager:
@@ -100,7 +34,7 @@ class DownloadManager:
                  max_concurrent: int = DEFAULT_CONCURRENT):
         self.base_dir = Path(base_dir)
         self.max_concurrent = max_concurrent
-        self.downloader = LuxDownloader()
+        self.downloader = YtDlpDownloader()
         self.base_dir.mkdir(parents=True, exist_ok=True)
 
     def load_links(self) -> dict:
@@ -186,12 +120,13 @@ class DownloadManager:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="视频下载管理工具",
+        description="视频下载管理工具 (基于 yt-dlp)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 提速建议:
-  1. 增加并发数: -c 10 (默认: 5)
-  2. 网络较差时: -c 2-3 (减少超时)
+  1. 增加并发数: -c 5 (默认: 3)
+  2. 网络较差时: -c 1-2 (减少超时)
+  3. yt-dlp 自动合并视频和音频轨道
         """
     )
     parser.add_argument("--url", action="append", help="直接下载 URL（可多次使用）")
