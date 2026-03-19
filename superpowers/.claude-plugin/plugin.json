@@ -1,0 +1,34 @@
+{
+  "name": "superpowers",
+  "version": "2.0.0",
+  "description": "Advanced development superpowers for orchestrating complex workflows with Superpower Loop integration",
+  "author": {
+    "name": "Frad LEE",
+    "email": "fradser@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": ["planning", "brainstorming", "bdd", "teams", "execution"],
+  "commands": [
+    "./skills/brainstorming/",
+    "./skills/writing-plans/",
+    "./skills/executing-plans/"
+  ],
+  "skills": [
+    "./skills/agent-team-driven-development/",
+    "./skills/behavior-driven-development/",
+    "./skills/build-like-iphone-team/",
+    "./skills/systematic-debugging/"
+  ],
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/stop-hook.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

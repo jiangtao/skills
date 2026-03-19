@@ -1,0 +1,12 @@
+{
+  "status": "running",
+  "retryCount": 0,
+  "maxRetries": 8,
+  "workdir": "/Users/jt/.codex/worktrees/f789/jiangtao-skills",
+  "promptFile": "/Users/jt/.codex/worktrees/f789/jiangtao-skills/superpowers-codex/examples/prompt.md",
+  "remainingTasks": [
+    "001-bootstrap-codex-loop",
+    "002-run-bdd-and-repair"
+  ],
+  "failedScenarios": []
+}

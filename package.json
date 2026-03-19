@@ -7,6 +7,7 @@
   "description": "Jerret's curated collection of Agent Skills",
   "scripts": {
     "lint": "eslint .",
+    "test:superpowers-codex": "node --test superpowers-codex/tests/*.test.mjs",
     "start": "node scripts/cli.ts",
     "prepare": "simple-git-hooks && git submodule update --init --recursive"
   },
