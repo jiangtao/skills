@@ -4,11 +4,33 @@ Advanced development superpowers for orchestrating complex workflows from idea t
 
 **Version**: 2.0.0
 
+> Migration notice: the maintained Claude-side source of truth for `superpowers` is now `/Users/jt/places/personal/dotclaude/superpowers`. This copy remains only as a transition artifact inside the `skills` repository.
+
 ## Installation
+
+### Original Marketplace Install
 
 ```bash
 claude plugin install superpowers@frad-dotclaude
 ```
+
+### Local Install From This Repository
+
+This repository is the source-of-truth workflow repository. It contains the locally adapted plugin implementation, but it is not yet a dedicated Claude marketplace repository.
+
+From the repository root:
+
+```bash
+claude plugin validate superpowers
+claude --plugin-dir "$PWD/superpowers"
+```
+
+Notes:
+
+- `claude plugin validate superpowers` checks that the local plugin manifest is compatible with your Claude Code version.
+- `claude --plugin-dir "$PWD/superpowers"` starts Claude Code with this local plugin loaded for the current session.
+- This path is the safest way to test local changes before publishing or packaging them elsewhere.
+- If you later want `claude plugin install superpowers@jiangtao`, publish a separate Claude marketplace repository and sync this `superpowers/` directory into it.
 
 ## Overview
 

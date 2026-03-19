@@ -143,6 +143,26 @@ Synced from external repositories that maintain their own skills.
 
 This collection uses git submodules to directly reference source documentation, providing more reliable context and allowing skills to stay up-to-date with upstream changes.
 
+## Repository Role
+
+This repository is the source-of-truth workspace for the hand-maintained skills in `skills/`.
+
+- Build and iterate on the hand-maintained skills here
+- Keep `dev`, `handoff`, `exam`, `video`, and future generic skills here
+- Maintain Claude-side `superpowers` in `dotclaude`
+- Maintain Codex-side `superpowers` adaptation in `dotcodex`
+
+## Superpowers Migration
+
+`superpowers` is no longer maintained in this repository.
+
+- Claude source of truth:
+  `/Users/jt/places/personal/dotclaude/superpowers`
+- Codex source of truth:
+  `/Users/jt/places/personal/dotcodex`
+
+The copies in this repository are now transition artifacts only and should not receive new primary changes.
+
 ## Generate Your Own Skills
 
 Fork this project to create your own customized skill collection.

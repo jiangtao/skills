@@ -2,6 +2,31 @@
 
 Codex-oriented adaptation of the `superpowers/` workflow.
 
+> Migration notice: the maintained Codex-side source of truth now lives in `/Users/jt/places/personal/dotcodex`. This directory remains only as a transition artifact inside the `skills` repository.
+
+## Installation
+
+This repository is the source-of-truth workflow repository. The Codex adapter currently ships as local skills plus a local watchdog script.
+
+From the repository root:
+
+```bash
+mkdir -p "$HOME/.codex/skills"
+ln -sfn "$PWD/superpowers-codex/skills/agent-team-driven-development" \
+  "$HOME/.codex/skills/agent-team-driven-development"
+ln -sfn "$PWD/superpowers-codex/skills/executing-plans" \
+  "$HOME/.codex/skills/executing-plans"
+```
+
+Then restart Codex so it reloads the installed skills.
+
+Notes:
+
+- Keep this repository checked out locally. The watchdog and examples run from the repo path.
+- This first pass installs the Codex-adapted `agent-team-driven-development` and `executing-plans` skills.
+- `behavior-driven-development` and `systematic-debugging` can still be referenced from the existing skill ecosystem until dedicated Codex variants are added here.
+- If you later want a cleaner public install flow, publish a separate distribution repository that syncs from `superpowers-codex/`.
+
 ## Goals
 
 - preserve the Claude workflow concepts without modifying the Claude plugin
